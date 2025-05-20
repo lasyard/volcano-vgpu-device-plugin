@@ -431,6 +431,25 @@ func (m *NvidiaDevicePlugin) Allocate(ctx context.Context, reqs *pluginapi.Alloc
 					HostPath: "/tmp/vgpulock",
 					ReadOnly: false},
 			)
+
+			overrideEnvPath := cacheFileHostDirectory + "/vgpu_envs"
+			file, err := os.OpenFile(overrideEnvPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+			if err != nil {
+				klog.Errorln("Failed to create file `/etc/vgpu_envs`")
+			} else {
+				defer file.Close()
+				fmt.Fprintf(file, "CUDA_DEVICE_SM_LIMIT=%s\n", response.Envs["CUDA_DEVICE_SM_LIMIT"])
+				for i := range devreq {
+					limitKey := fmt.Sprintf("CUDA_DEVICE_MEMORY_LIMIT_%v", i)
+					fmt.Fprintf(file, "%s=%s\n", limitKey, response.Envs[limitKey])
+				}
+				response.Mounts = append(response.Mounts,
+					&pluginapi.Mount{ContainerPath: "/etc/vgpu_envs",
+						HostPath: overrideEnvPath,
+						ReadOnly: true},
+				)
+			}
+
 			found := false
 			for _, val := range currentCtr.Env {
 				if strings.Compare(val.Name, "CUDA_DISABLE_CONTROL") == 0 {
