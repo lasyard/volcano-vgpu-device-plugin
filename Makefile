@@ -19,7 +19,7 @@ include Makefile.def
 
 ##### Global variables #####
 REGISTRY ?= projecthami
-VERSION  ?= 1.9.4-1
+VERSION  ?= 1.10.0-1
 
 ##### Using `BUILD_PLATFORMS=linux/arm64 make all` to build arm64 arch image locally
 ##### Using `BUILD_PLATFORMS=linux/amd64,linux/arm64 make push-latest` to build and publish multi-arch image

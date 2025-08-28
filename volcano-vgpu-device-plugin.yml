@@ -200,11 +200,8 @@ spec:
       priorityClassName: "system-node-critical"
       serviceAccount: volcano-device-plugin
       containers:
-<<<<<<< HEAD
-      - image: docker.io/projecthami/volcano-vgpu-device-plugin:v1.10.0
-=======
-      - image: docker.io/projecthami/volcano-vgpu-device-plugin:v1.9.4-1
->>>>>>> 8da0433 (add mount path for /etc/vgpu_envs)
+      - image: docker.io/projecthami/volcano-vgpu-device-plugin:1.10.0-1-ubuntu20.04
+        imagePullPolicy: Always
         args: ["--device-split-count=10"]
         lifecycle:
           postStart:
@@ -239,11 +236,8 @@ spec:
           mountPath: /usr/local/vgpu
         - name: hosttmp
           mountPath: /tmp
-<<<<<<< HEAD
-      - image: docker.io/projecthami/volcano-vgpu-device-plugin:v1.10.0
-=======
-      - image: docker.io/projecthami/volcano-vgpu-device-plugin:v1.9.4-1
->>>>>>> 8da0433 (add mount path for /etc/vgpu_envs)
+      - image: docker.io/projecthami/volcano-vgpu-device-plugin:1.10.0-1-ubuntu20.04
+        imagePullPolicy: Always
         name: monitor
         command:
         - /bin/bash
